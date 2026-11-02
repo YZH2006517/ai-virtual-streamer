@@ -1,0 +1,6 @@
+Pink Sakura — 作者 Ariakage / live2d-agent-kit
+来源：https://github.com/Ariakage/live2d-agent-kit/tree/main/examples/pink-sakura
+许可：CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）——可以商用、直播、修改，署名即可。
+必须署名：直播间简介写「Live2D 模型：Pink Sakura by Ariakage（github.com/Ariakage/live2d-agent-kit），CC BY 4.0，贴图缩小到 4096」。
+本程序的修改：贴图从 8192 缩小到 4096；运行时可能在衣服上叠加店铺 logo。
+注意：原始立绘由 AI 生成（作者说明），不要声称是自己原创。

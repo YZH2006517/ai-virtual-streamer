@@ -1,0 +1,4 @@
+FILI — 作者 MjGjVtube（论文项目 Gawang Pinoy）
+来源：https://github.com/MjGjVtube/free-filipino-vtuber-template
+许可：CC0 1.0（公有领域）——可以商用、修改，不用署名（写上更好）。
+说明：只有基础眨眼、嘴型，没有自带动作文件；画风偏写实成熟。

@@ -1,0 +1,12 @@
+numpy
+openai
+httpx
+edge-tts
+sounddevice
+imageio-ffmpeg
+pywebview
+pyyaml
+cryptography
+pypinyin
+pillow
+pyinstaller
