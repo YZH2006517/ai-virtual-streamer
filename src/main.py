@@ -441,7 +441,6 @@ LIVE_DEFAULTS = {
     "res": "1080",  # 画质：1080 / 1440（2K）/ 2160（4K），指竖屏的短边；直播窗口按这个物理像素开，OBS 浏览器源也填这个尺寸
     "persona": "",  # 唠嗑直播当前的人设 id（data/personas.json）
     "cold": {"on": True, "gap": 45},
-    "bubble": {"style": "classic", "quote": True},  # 对话气泡的样式；回答弹幕时要不要引用「回复 @谁」
     "charfit": "auto",  # 掌柜显示方式：auto（小动物全身、人物半身、跳舞全身）/ half / full；各场景可以另设（scenes[场景].fit）
     "scenes": {},  # 各场景自己的组件开关和位置 {场景: {show: {元素: 开关}, layout: {元素: 位置}}}；主场景用 show / layout
     "activity": {},  # 唠嗑活动的设置（跳舞几首、游戏类型、礼物心愿），默认值在 engine.Activity.DEFAULT  # 唠嗑冷场：多少秒没人说话，主播就从人设的话题库里挑一个主动开聊
@@ -464,8 +463,7 @@ LIVE_DEFAULTS = {
 }
 
 
-BUBBLE_STYLES = ("classic", "cream", "comic", "note", "neon", "candy", "glass", "pixel")  # 和 ui.html 的 BUBBLES 对应
-SCENE_PARTS = ("char", "namecard", "clock", "ticker", "chalk", "bubble", "open", "log", "counter", "ailabel", "music", "wish", "game", "feedtable", "feedbowl", "feedrank", "prdesk", "prwall", "prrule", "prpress")  # 小店场景里能拖动的元素
+SCENE_PARTS = ("char", "namecard", "clock", "ticker", "chalk", "bubble", "open", "log", "counter", "ailabel", "music", "wish", "game")  # 小店场景里能拖动的元素
 WIDGET_TYPES = ("text", "image", "countdown", "progress", "prices", "tokens")  # …… / token 账本（今天花了多少、礼物赚了多少）  # 文字标签 / 图片（二维码）/ 倒计时 / 目标进度 / 价目表
 MOTIONS = ("nod", "shake", "tilt", "happy", "wink", "think", "surprise", "look", "sway", "bow", "shy", "cheer")  # 和 ui.html 的 MOTIONS 对应
 LIVE_TEXTS = ("icon", "icon_img", "title", "slogan", "eyebrow", "tag", "notice", "chalk", "open_mode", "open_on", "open_off", "log_title", "who", "ailabel")
@@ -477,7 +475,7 @@ def _part_key(k) -> bool:
 
 
 VOICE_KEYS = ("engine", "voice", "rate", "pitch")
-LOOK_KEYS = ("bg", "theme", "texts", "layout", "widgets", "styles", "show", "order", "corner", "badge", "scenes", "charfit", "bubble")  # 两种直播各存一份的画面设置
+LOOK_KEYS = ("bg", "theme", "texts", "layout", "widgets", "styles", "show", "order", "corner", "badge", "scenes", "charfit")  # 两种直播各存一份的画面设置
 LOOK_REPLACE = tuple(("live", k) for k in ("theme", "texts", "layout", "widgets", "styles", "order", "looks", "scenes"))
 
 
@@ -534,12 +532,9 @@ def clean_live_patch(body: dict) -> dict:
                              "fit": x.get("fit") if x.get("fit") in ("half", "full") else "",
                              "layout": {k: {d: num(r[d], -100, 200) for d in ("x", "y", "w", "h") if d in r}
                                         for k, r in (x.get("layout") or {}).items() if _part_key(k) and isinstance(r, dict)}}
-                       for sid, x in sc.items() if sid in ("dance", "game", "feed", "print", "wall", "detail") and isinstance(x, dict)}
+                       for sid, x in sc.items() if sid in ("dance", "game", "wall", "detail") and isinstance(x, dict)}
     if "charfit" in p and p["charfit"] not in ("auto", "half", "full"):
         p.pop("charfit")
-    if "bubble" in p:
-        b = p["bubble"] if isinstance(p["bubble"], dict) else {}
-        p["bubble"] = {"style": b.get("style") if b.get("style") in BUBBLE_STYLES else "classic", "quote": b.get("quote") is not False}
     if "grid" in p:
         p["grid"] = num(p["grid"], 0, 10)
     if "theme" in p:
@@ -570,13 +565,10 @@ def clean_live_patch(body: dict) -> dict:
     p.pop("music", None)  # 音乐只走 /api/music
     if "activity" in p:
         a = p["activity"] if isinstance(p["activity"], dict) else {}
-        d, g, w, f, pr = a.get("dance") or {}, a.get("game") or {}, a.get("wish") or {}, a.get("feed") or {}, a.get("print") or {}
+        d, g, w = a.get("dance") or {}, a.get("game") or {}, a.get("wish") or {}
         p["activity"] = {"dance": {"songs": int(num(d.get("songs", 1), 0, 10)), "power": num(d.get("power", 1), .3, 1.6)},
                          "game": {"type": g.get("type") if g.get("type") in ("guess", "quiz") else "guess", "rounds": int(num(g.get("rounds", 5), 1, 20)),
                                   "secs": int(num(g.get("secs", 20), 8, 60)), "topic": s(g.get("topic", ""), 60), "level": g.get("level") if g.get("level") in ("easy", "mid", "hard") else "mid"},
-                         "feed": {"food": f.get("food") if f.get("food") in ("rice", "noodle", "cake", "burger", "hotpot", "melon") else "rice", "goal": int(num(f.get("goal", 300), 10, 99999)),
-                                  "like": int(num(f.get("like", 10), 1, 999)), "gift": int(num(f.get("gift", 30), 1, 9999))},
-                         "print": {"need": int(num(pr.get("need", 3), 1, 99)), "gift": s(pr.get("gift", "小心心"), 12).strip(), "title": s(pr.get("title", ""), 16).strip()},
                          "wish": {"on": bool(w.get("on")), "items": [{"gift": s(i.get("gift", ""), 12).strip(), "n": int(num(i.get("n", 1), 1, 99999)),
                                                                        "reward": s(i.get("reward", ""), 30), "act": i.get("act") if i.get("act") in ("dance", "game") else ""}
                                                                       for i in (w.get("items") or [])[:6] if isinstance(i, dict) and str(i.get("gift", "")).strip()]}}
@@ -734,7 +726,7 @@ def live_view(engine) -> dict:
     sections = [{"id": x["id"], "title": x["title"]} for x in engine.shop.get("sections", [])]  # 价目表组件可选的分类
     return {"url": engine.live_url, "devices": AudioOut.devices(), "bgs": bgs, "sections": sections,
             **{k: c[k] for k in ("device", "monitor", "scene", "ratio", "bgmode", "cap", "bg", "show", "auto", "phrases", "follow",
-                                 "layout", "grid", "theme", "styles", "widgets", "tests", "texts", "order", "motion", "badge", "danmaku", "corner", "res", "mode", "persona", "cold", "show_auto", "activity", "scenes", "charfit", "bubble")},
+                                 "layout", "grid", "theme", "styles", "widgets", "tests", "texts", "order", "motion", "badge", "danmaku", "corner", "res", "mode", "persona", "cold", "show_auto", "activity", "scenes", "charfit")},
             "showcase": engine.showcase, "dm": engine.danmaku.view(), "mu": engine.music.view()}
 
 
@@ -743,7 +735,7 @@ def live_state(engine) -> dict:
     shop = {k: engine.shop.get(k, "") for k in (*SHOP_TEXT, "logo")}
     cats = engine.show.cats()  # 按店铺里排好的分类顺序
     shop["projects"] = sorted((p for p in engine.shop.get("projects", []) if p.get("enabled", True)), key=lambda p: cats.index(p.get("cat") or "其他"))
-    live = {k: engine.cfg["live"][k] for k in ("scene", "ratio", "bgmode", "cap", "bg", "show", "follow", "layout", "theme", "styles", "widgets", "texts", "order", "motion", "badge", "corner", "mode", "scenes", "charfit", "bubble")}
+    live = {k: engine.cfg["live"][k] for k in ("scene", "ratio", "bgmode", "cap", "bg", "show", "follow", "layout", "theme", "styles", "widgets", "texts", "order", "motion", "badge", "corner", "mode", "scenes", "charfit")}
     secs = {x["id"]: x for x in engine.shop.get("sections", [])}
     wdata = {w["id"]: [{"title": i["title"], "text": i["text"]} for i in secs[w["props"]["section"]]["items"] if i.get("enabled", True)]
              for w in live["widgets"] if w["type"] == "prices" and w["props"].get("section") in secs}  # 价目表：取店铺知识库里那个分类的条目
@@ -1164,10 +1156,6 @@ def make_handler(engine, token: str, transport: Transport, shops: dict, personas
                         return self._json({"games": engine.act.records()})
                     elif act == "wish_reset":
                         engine.act.reset_wish()
-                    elif act == "feed_reset":
-                        engine.act.reset_feed()
-                    elif act == "print_reset":
-                        engine.act.reset_print()
                     elif act == "score_reset":
                         engine.act.scores = {}
                         engine.act.emit()
@@ -1313,8 +1301,7 @@ def open_live_window(engine) -> dict:
 # 只读网页上公开显示的内容；抖音改版网页时要跟着改选择器（webcast-chatroom___item 等）
 DANMAKU_JS = r"""(() => {
   if (window.__aiDanmaku) return; window.__aiDanmaku = true;
-  const seen = new Map(), gifted = new Map(), liked = new Map(); let buf = [], room = null, mo = null;
-  const faceOf = el => el.querySelector('img[class*="avatar" i], [class*="avatar" i] img')?.src || '';  // 观众头像：页面里有就带上，没有就用生成的
+  const seen = new Map(), gifted = new Map(); let buf = [], room = null, mo = null;
   const add = it => { const k = it.type + '|' + it.nick + '|' + it.text, now = Date.now(); if (now - (seen.get(k) || 0) < 60000) return; seen.set(k, now); buf.push(it); };
   // 昵称：取「：」前面那段文字（昵称前的等级 / 粉丝团徽章是单独的元素，里面的数字不算昵称）
   const nickOf = el => {
@@ -1336,7 +1323,7 @@ DANMAKU_JS = r"""(() => {
       const img = el.querySelector('img[alt]:not([alt=""]), img[title]:not([title=""])');
       // 连击时同一条消息会原地从「× 1」变成「× 5」：按消息编号记住已经算过的个数，只记新增的
       const id = el.dataset.id || el.querySelector('[data-id]')?.dataset.id || flat, n = +gift[2], had = gifted.get(id) || 0;
-      if (n > had) { gifted.set(id, n); buf.push({type: 'gift', nick: nickOf(el) || raw.slice(0, i).trim(), text: (gift[1] || (img && (img.alt || img.title)) || '礼物').trim(), n: n - had, avatar: faceOf(el)}); }
+      if (n > had) { gifted.set(id, n); buf.push({type: 'gift', nick: nickOf(el) || raw.slice(0, i).trim(), text: (gift[1] || (img && (img.alt || img.title)) || '礼物').trim(), n: n - had}); }
       return;
     }
     if (!c && i < 0) { const m = raw.match(/^(.+?)\s*来了$/); add(m ? {type: 'enter', nick: m[1], text: ''} : {type: 'other', nick: '', text: flat.slice(0, 80)}); return; }
@@ -1344,12 +1331,7 @@ DANMAKU_JS = r"""(() => {
     const text = (c ? c.innerText : raw.slice(i + 1)).trim(), cut = c && text ? raw.lastIndexOf(text) : i;
     let nick = raw.slice(0, cut > 0 ? cut : i).replace(/[：:\s]+$/, '').trim();
     const n2 = nickOf(el); if (n2 && n2 !== nick && nick.endsWith(n2)) nick = n2;
-    if (/^为主播点赞了/.test(text)) {  // 点赞要累计：同一个人只防 2 秒内重复触发（列表复用节点时同一条会再来一次）
-      const now = Date.now(), m = text.match(/[×xX*]\s*(\d+)/);
-      if (now - (liked.get(nick) || 0) > 2000) { liked.set(nick, now); buf.push({type: 'like', nick, text: '', n: m ? +m[1] : 1, avatar: faceOf(el)}); }
-      return;
-    }
-    add({type: 'comment', nick, text});
+    add(/^为主播点赞了/.test(text) ? {type: 'like', nick, text: ''} : {type: 'comment', nick, text});
   };
   const watch = () => {
     const r = document.querySelector('.webcast-chatroom');
@@ -1366,7 +1348,7 @@ DANMAKU_JS = r"""(() => {
   };
   setInterval(watch, 1000);
   setInterval(() => { const a = window.pywebview && window.pywebview.api; if (!a) return; const items = buf; buf = []; a.push(items, {room: !!room, title: document.title}); }, 700);
-  setInterval(() => { const now = Date.now(); for (const [k, t] of seen) if (now - t > 120000) seen.delete(k); if (gifted.size > 500) gifted.clear(); if (liked.size > 2000) liked.clear(); }, 30000);
+  setInterval(() => { const now = Date.now(); for (const [k, t] of seen) if (now - t > 120000) seen.delete(k); if (gifted.size > 500) gifted.clear(); }, 30000);
 })();"""
 DANMAKU_WIN = None
 
