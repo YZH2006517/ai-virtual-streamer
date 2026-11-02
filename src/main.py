@@ -1450,7 +1450,6 @@ def serve(port=None):
 
 
 MAIN_TITLE = "AI虚拟主播"
-SPLASH_DONE = threading.Event()
 
 
 def message(text: str, flags: int = 0x40):
@@ -1474,33 +1473,12 @@ def single_instance() -> bool:
     return False
 
 
-def splash():
-    """加载模型要一会儿，窗口出来之前先有个提示，不然双击后像没反应。"""
-    try:
-        import tkinter as tk
-
-        r = tk.Tk()
-        r.overrideredirect(True)
-        r.attributes("-topmost", True)
-        w, h = 420, 130
-        r.geometry(f"{w}x{h}+{(r.winfo_screenwidth() - w) // 2}+{(r.winfo_screenheight() - h) // 2}")
-        r.configure(bg="#170f2e")
-        tk.Label(r, text="AI虚拟主播", fg="#f4f0ff", bg="#170f2e", font=("Microsoft YaHei", 18, "bold")).pack(pady=(26, 4))
-        tk.Label(r, text="正在启动，请稍候…", fg="#b9b0d6", bg="#170f2e", font=("Microsoft YaHei", 11)).pack()
-
-        def poll():
-            r.destroy() if SPLASH_DONE.is_set() else r.after(200, poll)
-        poll()
-        r.mainloop()
-    except Exception as e:  # noqa: BLE001
-        print(f"[启动] 启动提示没显示：{e}", flush=True)
 
 
 def run():
     global WINDOWED
     if not single_instance():
         return
-    threading.Thread(target=splash, daemon=True).start()
     import webview
 
     url = serve()
@@ -1509,8 +1487,6 @@ def run():
     os.environ.setdefault("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
                           "--disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows")
     win = webview.create_window(MAIN_TITLE, url, width=1440, height=900, min_size=(1100, 700), background_color="#f5f5f7")
-    win.events.loaded += lambda *_: SPLASH_DONE.set()
-    threading.Timer(90, SPLASH_DONE.set).start()  # 万一等不到加载完成的通知，也别一直挡在屏幕上
     webview.start(private_mode=False, storage_path=str(ROOT / "data" / "webview"))  # 保留登录状态：弹幕窗口里登录过抖音下次不用再登
     os._exit(0)  # 关窗即退出，不等后台线程
 
@@ -1527,5 +1503,4 @@ if __name__ == "__main__":
             import traceback
 
             traceback.print_exc()
-            SPLASH_DONE.set()
             message(f"启动失败：{type(e).__name__}: {e}\n\n详细信息在 {ROOT / 'logs' / 'app.log'}", 0x10)
