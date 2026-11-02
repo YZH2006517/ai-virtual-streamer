@@ -1,4 +1,4 @@
-"""AI 唠嗑主播：Live2D 数字人唠嗑直播。本地服务（页面 / 接口 / 直播画面）+ 桌面窗口。
+"""AI虚拟主播：Live2D 数字人唠嗑直播。本地服务（页面 / 接口 / 直播画面）+ 桌面窗口。
 
     python src/main.py              打开桌面窗口
     python src/main.py serve [端口]  只启动本地服务，用浏览器打开（调试用）
@@ -21,7 +21,7 @@ from pathlib import Path
 from safefile import read_json, save_text
 
 FROZEN = getattr(sys, "frozen", False)
-ROOT = Path(os.environ["LOCALAPPDATA"]) / "AI唠嗑主播" if FROZEN else Path(__file__).resolve().parent.parent / "run"  # 用户数据放这里，exe 放哪都行
+ROOT = Path(os.environ["LOCALAPPDATA"]) / "AI虚拟主播" if FROZEN else Path(__file__).resolve().parent.parent / "run"  # 用户数据放这里，exe 放哪都行
 BUNDLE = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))  # ui.html 所在目录
 MODELS = ROOT / "models"
 SEED = BUNDLE / "seed" if FROZEN else Path(__file__).resolve().parent.parent / "seed"  # 随程序带的初始文件：配置、Live2D 模型、前端库
@@ -888,7 +888,7 @@ def make_handler(engine, token: str, transport: Transport, shops: dict, personas
             if host in ("127.0.0.1", "localhost") and (secrets.compare_digest(got, token) or
                                                       (live_ok and secrets.compare_digest(live, engine.cfg["live"]["token"]))):
                 return True
-            self._send(403, "未授权：请从AI 唠嗑主播的程序窗口访问".encode(), "text/plain; charset=utf-8")
+            self._send(403, "未授权：请从AI虚拟主播的程序窗口访问".encode(), "text/plain; charset=utf-8")
             return False
 
         def _send(self, code, body: bytes, ctype, headers=()):
@@ -1282,7 +1282,7 @@ def open_live_window(engine) -> dict:
     fit = min(1, sw * .96 / pw, sh * .9 / ph)
     tw, th = int(pw * fit) // 2 * 2, int(ph * fit) // 2 * 2
     scale = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100
-    win = webview.create_window("AI 唠嗑主播 直播画面", engine.live_url, width=int(tw / scale) + 16, height=int(th / scale) + 39,
+    win = webview.create_window("AI虚拟主播 直播画面", engine.live_url, width=int(tw / scale) + 16, height=int(th / scale) + 39,
                                 background_color="#00ff00" if c["scene"] == "plain" and c["bgmode"] == "green" else "#000000")
 
     def exact(*_):  # 加载后量一下内容区实际有多少物理像素，把边框标题栏的差补上，让采到的正好是 tw × th
@@ -1384,7 +1384,7 @@ def open_danmaku_window(engine, raw: str) -> dict:
     save_settings({"live": {"danmaku": {**engine.cfg["live"]["danmaku"], "url": raw.strip()}}}, replace=(("live", "danmaku"),))
     engine.cfg["live"]["danmaku"]["url"] = raw.strip()
     if not WINDOWED:
-        return {"error": "浏览器调试模式下打不开弹幕窗口，请用 AI唠嗑主播.exe 启动"}
+        return {"error": "浏览器调试模式下打不开弹幕窗口，请用 AI虚拟主播.exe 启动"}
     import webview
 
     engine.danmaku.source.update(state="waiting", title="", t=_t.time())
@@ -1449,12 +1449,12 @@ def serve(port=None):
     return f"http://127.0.0.1:{p}/?t={token}"
 
 
-MAIN_TITLE = "AI 唠嗑主播"
+MAIN_TITLE = "AI虚拟主播"
 SPLASH_DONE = threading.Event()
 
 
 def message(text: str, flags: int = 0x40):
-    ctypes.windll.user32.MessageBoxW(0, text, "AI 唠嗑主播", flags | 0x10000)  # 0x10000：弹到最前面
+    ctypes.windll.user32.MessageBoxW(0, text, "AI虚拟主播", flags | 0x10000)  # 0x10000：弹到最前面
 
 
 def single_instance() -> bool:
@@ -1462,7 +1462,7 @@ def single_instance() -> bool:
     global _MUTEX
     k32 = ctypes.WinDLL("kernel32", use_last_error=True)
     k32.CreateMutexW.restype = ctypes.c_void_p
-    _MUTEX = k32.CreateMutexW(None, False, "AILaokeZhubo.SingleInstance")  # 留着句柄，程序退出时系统回收
+    _MUTEX = k32.CreateMutexW(None, False, "AIVirtualStreamer.SingleInstance")  # 留着句柄，程序退出时系统回收
     if ctypes.get_last_error() != 183:  # ERROR_ALREADY_EXISTS
         return True
     hwnd = ctypes.windll.user32.FindWindowW(None, MAIN_TITLE)
@@ -1470,7 +1470,7 @@ def single_instance() -> bool:
         ctypes.windll.user32.ShowWindow(hwnd, 9)  # 最小化了就还原
         ctypes.windll.user32.SetForegroundWindow(hwnd)
     else:
-        message("程序正在启动或退出中，请等几秒再试。\n一直打不开的话，到任务管理器里结束 AI唠嗑主播.exe 再启动。")
+        message("程序正在启动或退出中，请等几秒再试。\n一直打不开的话，到任务管理器里结束 AI虚拟主播.exe 再启动。")
     return False
 
 
@@ -1485,7 +1485,7 @@ def splash():
         w, h = 420, 130
         r.geometry(f"{w}x{h}+{(r.winfo_screenwidth() - w) // 2}+{(r.winfo_screenheight() - h) // 2}")
         r.configure(bg="#170f2e")
-        tk.Label(r, text="AI 唠嗑主播", fg="#f4f0ff", bg="#170f2e", font=("Microsoft YaHei", 18, "bold")).pack(pady=(26, 4))
+        tk.Label(r, text="AI虚拟主播", fg="#f4f0ff", bg="#170f2e", font=("Microsoft YaHei", 18, "bold")).pack(pady=(26, 4))
         tk.Label(r, text="正在启动，请稍候…", fg="#b9b0d6", bg="#170f2e", font=("Microsoft YaHei", 11)).pack()
 
         def poll():

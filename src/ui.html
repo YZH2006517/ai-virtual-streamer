@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI 唠嗑主播</title>
+<title>AI虚拟主播</title>
 <script>/* 先定主题再渲染，避免闪烁 */
 (() => { let t = "auto"; try { t = localStorage.getItem("theme") || "auto"; } catch {}
   const dark = t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
@@ -4350,7 +4350,7 @@ function liveAvatar(a) {  // a = {type, path, ears}；没变就不重载
 }
 if (LIVE) {
   document.body.classList.add("live");
-  document.title = "AI 唠嗑主播 直播画面";
+  document.title = "AI虚拟主播 直播画面";
   fetch("/api/live_state").then(r => r.json()).then(st => { if (st.ledger) LEDGER = st.ledger; applyLive(st.live, st.wdata); PICKS = st.picks || {}; applyShowcase(st.showcase, true); liveAvatar(st); renderShop(st); st.recent.forEach(pushLog); renderMusic(st.music); if (st.beats) BEATS = st.beats; applyActivity(st.activity); });
   setInterval(shopTick, 1000);
 } else {

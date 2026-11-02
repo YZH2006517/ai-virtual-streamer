@@ -1,4 +1,4 @@
-# AI 唠嗑主播 的默认配置。界面「设置」里改的内容保存在 data/settings.json，会覆盖这里的同名项。
+# AI虚拟主播 的默认配置。界面「设置」里改的内容保存在 data/settings.json，会覆盖这里的同名项。
 name: 小柚
 
 llm:

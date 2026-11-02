@@ -1,4 +1,4 @@
-# AI 唠嗑主播
+# AI虚拟主播
 
 Windows 上的 AI 数字人唠嗑直播助手：一个 Live2D 主播看着抖音弹幕陪观众聊天，还能跳舞、玩弹幕小游戏。
 
@@ -27,7 +27,7 @@ Windows 上的 AI 数字人唠嗑直播助手：一个 Live2D 主播看着抖音
 
 - Windows 10 / 11（64 位），需要 [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/)（Win11 自带）
 - 需要联网：大模型、语音（微软 Edge 在线语音）都在云端
-- 你的数据都在本机 `%LOCALAPPDATA%\AI唠嗑主播`，API Key 用 Windows DPAPI 加密保存
+- 你的数据都在本机 `%LOCALAPPDATA%\AI虚拟主播`，API Key 用 Windows DPAPI 加密保存
 
 ## 使用须知
 
@@ -44,7 +44,7 @@ uv pip install --python .venv\Scripts\python.exe -r requirements.txt
 .venv\Scripts\python.exe src\main.py
 ```
 
-打包：`powershell -File build.ps1`，生成 `release\AI唠嗑主播.exe`。
+打包：`powershell -File build.ps1`，生成 `release\AI虚拟主播.exe`。
 
 ## 授权
 
