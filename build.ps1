@@ -10,4 +10,5 @@ $scenes = Get-ChildItem "$Root\src\scene_*.webp" | ForEach-Object { "--add-data"
   --collect-all webview --collect-all clr_loader --collect-all pythonnet --collect-all imageio_ffmpeg --collect-all _sounddevice_data `
   --collect-data certifi --hidden-import edge_tts --hidden-import pypinyin --collect-data pypinyin `
   --exclude-module tkinter.test "$Root\src\main.py"
+if ($LASTEXITCODE) { throw "打包失败：如果 release 里的 exe 正在运行，先关掉它再打包" }
 Get-Item "$Root\release\AI虚拟主播.exe" | Select-Object Name, @{n="MB";e={[int]($_.Length/1MB)}}
