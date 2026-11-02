@@ -596,6 +596,89 @@ body[data-view="talk"] :is(.scenebar, .scenepop) { display: none !important; }
 #sh-game .firework i { position: absolute; left: 0; top: 0; width: .9cqw; height: .9cqw; margin: -.45cqw; border-radius: 50%; background: var(--fc); box-shadow: 0 0 1.6cqw var(--fc);
   animation: gmburst 1.6s ease-out infinite; animation-delay: inherit; opacity: 0; }
 @keyframes gmburst { 0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 1; } 70% { opacity: 1; } 100% { transform: rotate(var(--a)) translateY(-14cqw) scale(.3); opacity: 0; } }
+/* ---------- 点赞投喂 / 头像工坊 ---------- */
+#sh-feed, #sh-print { display: none; position: absolute; inset: 0; pointer-events: none; }
+.stage[data-act="feed"] #sh-feed, .stage[data-act="print"] #sh-print { display: block; }
+.stage[data-act="feed"] :is(#charbox, #video) { left: 3% !important; top: 34% !important; width: 94% !important; height: 46% !important; right: auto !important; bottom: auto !important; }
+.stage[data-act="feed"] #sh-bubble { left: 5cqw !important; top: 24% !important; width: 90cqw !important; right: auto !important; bottom: auto !important; }
+.stage[data-act="print"] :is(#charbox, #video) { left: -16% !important; top: 46% !important; width: 80% !important; height: 34% !important; right: auto !important; bottom: auto !important; }
+.stage[data-act="print"] #sh-bubble { left: 4cqw !important; top: 83% !important; width: 92cqw !important; right: auto !important; bottom: auto !important; }
+.fd-table { position: absolute; left: 0; top: 75%; width: 100%; bottom: 0; background: linear-gradient(#fdf4e4, #efdcbd 70%, #e3caa3); box-shadow: 0 -1cqw 3cqw rgba(90,50,10,.28), inset 0 .5cqw 0 #fffaf0; }
+.fd-bowl { position: absolute; left: 3cqw; top: 75.5%; width: 40cqw; aspect-ratio: 1; display: grid; place-items: center; font-family: var(--ff); }
+.fd-dish { position: absolute; inset: 7%; border-radius: 50%; background: radial-gradient(circle at 50% 42%, #fff 0 46%, #f4ead8 47% 62%, #fff 63% 68%, #e6d6bb 69% 70.5%, #fbf5ea 71%);
+  box-shadow: 0 1.6cqw 4cqw rgba(70,40,10,.32), inset 0 -.8cqw 1.4cqw rgba(120,80,30,.12); }
+.fd-food { position: relative; font-size: 22cqw; line-height: 1; transform-origin: 50% 90%; filter: drop-shadow(0 .8cqw 1cqw rgba(60,30,0,.28)); }
+.fd-ring { position: absolute; inset: 1%; border-radius: 50%; background: conic-gradient(#ff6f9c var(--p, 0%), rgba(255,255,255,.7) 0); -webkit-mask: radial-gradient(closest-side, transparent 92%, #000 93%); mask: radial-gradient(closest-side, transparent 92%, #000 93%); }
+.fd-food.bite { animation: fdbite .36s ease-out; } @keyframes fdbite { 30% { transform: scale(1.12, .9); } 65% { transform: scale(.95, 1.06); } }
+.fd-no { position: absolute; left: 50%; bottom: -1%; transform: translateX(-50%); padding: .7cqw 2.8cqw; border-radius: 99px; white-space: nowrap; color: #5d3a11; background: linear-gradient(#ffe9b0, #ffd27a); font-size: calc(2.7cqw * var(--fs, 1)); font-weight: 800;
+  box-shadow: 0 .6cqw 1.4cqw rgba(120,70,0,.3), inset 0 0 0 .25cqw #fff6dd; }
+.fd-rank { position: absolute; left: 46cqw; top: 75.5%; width: 51cqw; display: flex; flex-direction: column; gap: 1.1cqw; font-family: var(--ff); }
+.fd-prog { display: flex; align-items: center; gap: 1.6cqw; padding: 1.2cqw 2.4cqw; border-radius: 99px; color: #4b3320; background: #fff9ee; font-size: calc(2.7cqw * var(--fs, 1)); font-weight: 800; white-space: nowrap;
+  box-shadow: 0 .8cqw 2cqw rgba(90,50,10,.28), inset 0 0 0 .3cqw #f0d48c; }
+.fd-prog .bar { flex: 1; height: 1.5cqw; border-radius: 99px; overflow: hidden; background: #efe3cd; } .fd-prog .bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #ffb35c, #ff6f9c); transition: width .4s; }
+.fd-prog em { font-style: normal; font-variant-numeric: tabular-nums; font-size: .92em; } .fd-eaten { align-self: flex-end; margin-bottom: -.7cqw; padding: .3cqw 2cqw; border-radius: 99px; background: #fbd98a; color: #6b4310; font-size: calc(2.2cqw * var(--fs, 1)); font-weight: 800; }
+.fd-row { display: flex; align-items: center; gap: 1.2cqw; padding: .7cqw 1cqw .7cqw 2.2cqw; border-radius: 99px; background: rgba(255,255,255,.93); color: #3f2b35; font-size: calc(2.6cqw * var(--fs, 1)); font-weight: 700;
+  box-shadow: 0 .6cqw 1.6cqw rgba(120,40,90,.22), inset 0 0 0 .25cqw #f7c5dd; }
+.fd-row:first-of-type { background: linear-gradient(90deg, #fff4d2, #ffe2ee); box-shadow: 0 .6cqw 1.8cqw rgba(190,110,20,.3), inset 0 0 0 .3cqw #f3cc6e; }
+.fd-row b { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 700; } .fd-row span { color: #e8457f; font-weight: 900; font-size: 1.28em; font-style: italic; font-variant-numeric: tabular-nums; }
+.fd-row small { padding: .35cqw 1.5cqw; border-radius: 99px; color: #8a5b75; background: #fff; font-size: .82em; box-shadow: inset 0 0 0 .2cqw #eccbdb; white-space: nowrap; }
+.fd-fx { position: absolute; inset: 0; overflow: visible; pointer-events: none; z-index: 30; }
+.fd-plus { position: absolute; font-family: var(--ff); font-size: 9cqw; font-weight: 900; font-style: italic; color: #fff; -webkit-text-stroke: .5cqw #ff4f8b; paint-order: stroke fill; text-shadow: 0 .8cqw 2cqw rgba(190,20,90,.45); animation: fdplus 1.2s ease-out forwards; }
+@keyframes fdplus { 0% { opacity: 0; transform: translateY(2cqw) scale(.5); } 18% { opacity: 1; transform: translateY(0) scale(1.15); } 70% { opacity: 1; } 100% { opacity: 0; transform: translateY(-9cqw) scale(1); } }
+.fd-toast { position: absolute; left: 8cqw; right: 8cqw; top: 70%; margin: auto; width: fit-content; max-width: 84cqw; padding: 1cqw 3cqw; border-radius: 99px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: #4a2740; background: rgba(255,255,255,.95); font-family: var(--ff);
+  font-size: calc(2.7cqw * var(--fs, 1)); font-weight: 700; box-shadow: 0 .8cqw 2.2cqw rgba(120,30,90,.3), inset 0 0 0 .25cqw #f6bcd6; animation: fdtoast 2s ease-out forwards; }
+.fd-toast em { font-style: normal; color: #e8457f; font-weight: 900; } @keyframes fdtoast { 0% { opacity: 0; transform: translateX(-5cqw); } 12%, 76% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-2cqw); } }
+.fd-heart { position: absolute; font-size: 4cqw; animation: fdheart 1.5s ease-out forwards; } @keyframes fdheart { 0% { opacity: 0; transform: translate(0, 0) scale(.4); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), -22cqw) scale(1.1); } }
+.pr-desk { position: absolute; left: 0; top: 76%; width: 100%; bottom: 0; background: linear-gradient(#e9c79a, #d3a873 18%, #bd8e5a); box-shadow: 0 -1cqw 3cqw rgba(70,40,10,.3), inset 0 .5cqw 0 #f6dfbf; }
+.pr-rule { position: absolute; left: 3cqw; top: 15%; width: 43cqw; display: flex; flex-direction: column; gap: 1.5cqw; font-family: var(--ff); color: #3b3026; }
+.pr-title { padding: 1.5cqw 2.6cqw; border-radius: 2cqw; background: #fffdf6; font-size: calc(4.1cqw * var(--fs, 1)); font-weight: 900; box-shadow: 0 .8cqw 2.2cqw rgba(70,50,20,.22); line-height: 1.25; }
+.pr-sec { padding: 1.8cqw 2.2cqw; border-radius: 2cqw; background: rgba(255,253,246,.95); box-shadow: 0 .8cqw 2.2cqw rgba(70,50,20,.18); }
+.pr-sec h5 { margin: 0 0 1.1cqw; font-size: calc(2.2cqw * var(--fs, 1)); font-weight: 800; color: #84745f; letter-spacing: .08em; }
+.pr-way { display: flex; align-items: center; gap: 1.2cqw; padding: .7cqw 0; font-size: calc(2.5cqw * var(--fs, 1)); font-weight: 700; } .pr-way i { display: grid; place-items: center; width: 4.2cqw; height: 4.2cqw; flex: none; border-radius: 1cqw; background: #e6f1dd; color: #4f7a35; font-style: normal; font-size: .86em; font-weight: 900; }
+.pr-way:nth-of-type(2) i { background: #fde4ea; color: #d7476d; } .pr-way small { margin-left: auto; color: #8d7c68; font-size: .84em; font-weight: 600; white-space: nowrap; }
+.pr-gifts { display: grid; grid-template-columns: 1fr 1fr; gap: .8cqw 1.4cqw; min-height: 3cqw; font-size: calc(2.2cqw * var(--fs, 1)); font-weight: 700; } .pr-gifts span { display: flex; gap: .6cqw; min-width: 0; } .pr-gifts b { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 700; } .pr-gifts em { color: #d7476d; font-style: normal; font-weight: 800; }
+.pr-wall { position: absolute; left: 49cqw; top: 15%; width: 48cqw; font-family: var(--ff); color: #3b3026; }
+.pr-head { margin-bottom: 1.5cqw; padding: 1.1cqw 2cqw; border-radius: 1.6cqw; background: #fffdf6; font-size: calc(2.6cqw * var(--fs, 1)); font-weight: 800; box-shadow: 0 .8cqw 2cqw rgba(70,50,20,.18); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.pr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6cqw; }
+.pr-card { position: relative; padding: 1.3cqw 1.3cqw 1.6cqw; border-radius: .9cqw; background: #fffef9; box-shadow: 0 .9cqw 2.2cqw rgba(60,40,10,.26); text-align: left; animation: prin .5s ease-out; }
+.pr-card::before { content: ""; position: absolute; left: 50%; top: -1.1cqw; width: 9cqw; height: 2.2cqw; margin-left: -4.5cqw; background: rgba(240,221,164,.82); transform: rotate(-3deg); box-shadow: 0 .2cqw .4cqw rgba(90,60,10,.14); }
+@keyframes prin { from { opacity: 0; transform: translateY(3cqw) rotate(2deg) scale(.92); } }
+.pr-av { position: relative; display: grid; place-items: center; aspect-ratio: 1; overflow: hidden; border-radius: .5cqw; color: #fff; font-size: 10cqw; font-weight: 900; text-shadow: 0 .4cqw 1cqw rgba(0,0,0,.2);
+  background: radial-gradient(circle at 30% 26%, hsl(var(--h, 330) 92% 82%), hsl(calc(var(--h, 330) + 42) 80% 62%)); } .pr-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pr-card b { display: block; margin-top: .9cqw; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: calc(2.3cqw * var(--fs, 1)); font-weight: 700; } .pr-card u { display: block; text-decoration: none; font-size: calc(3cqw * var(--fs, 1)); font-weight: 900; }
+.pr-tag { display: block; margin-top: .6cqw; padding: .6cqw 0; border-radius: .9cqw; color: #fff4dc; background: linear-gradient(#d9583f, #b83e2b); text-align: center; font-size: calc(2.5cqw * var(--fs, 1)); font-weight: 800; letter-spacing: .14em; }
+.pr-empty { grid-column: 1 / -1; padding: 7cqw 2cqw; border-radius: 1.6cqw; text-align: center; color: #84745f; background: rgba(255,253,246,.9); font-size: calc(2.6cqw * var(--fs, 1)); font-weight: 700; }
+.pr-press { position: absolute; left: 47cqw; top: 66%; width: 50cqw; font-family: var(--ff); color: #3b3026; }
+.pr-count { display: flex; justify-content: center; gap: 4cqw; padding: 1.1cqw 2cqw; margin-bottom: 1.2cqw; border-radius: 99px; background: #fffdf6; box-shadow: 0 .8cqw 2cqw rgba(70,50,20,.18); font-size: calc(2.5cqw * var(--fs, 1)); font-weight: 700; } .pr-count b { font-size: 1.3em; font-weight: 900; font-variant-numeric: tabular-nums; }
+.pr-mach { position: relative; height: 21cqw; } .pr-tray { position: absolute; left: 12%; right: 12%; top: 0; height: 7cqw; border-radius: 1.4cqw 1.4cqw 0 0; background: linear-gradient(#fbfaf5, #e3dfd3); box-shadow: inset 0 .3cqw 0 #fff; }
+.pr-body { position: absolute; left: 0; right: 0; top: 5cqw; bottom: 0; border-radius: 2cqw; background: linear-gradient(170deg, #fdfcf8 0 44%, #e7e3d8 100%); box-shadow: 0 1.4cqw 3cqw rgba(50,35,10,.35), inset 0 .3cqw 0 #fff, inset 0 -.8cqw 1.4cqw rgba(90,70,30,.14); }
+.pr-slot { position: absolute; left: 12%; right: 12%; bottom: 3.3cqw; height: 1.6cqw; border-radius: .6cqw; background: linear-gradient(#25272d, #4a4c55); } .pr-led { position: absolute; right: 5%; top: 1.6cqw; width: 1.5cqw; height: 1.5cqw; border-radius: 50%; background: #b7c9a8; box-shadow: inset 0 .2cqw .3cqw rgba(0,0,0,.2); }
+.pr-mach.on .pr-led { background: #63e06f; box-shadow: 0 0 1.6cqw #63e06f; animation: prled .6s steps(2) infinite; } @keyframes prled { 50% { opacity: .35; } }
+.pr-brand { position: absolute; left: 6%; top: 1.5cqw; font-size: calc(2.2cqw * var(--fs, 1)); font-weight: 800; color: #6d6455; letter-spacing: .1em; }
+.pr-paper { position: absolute; left: 50%; bottom: 4.6cqw; width: 22cqw; margin-left: -11cqw; height: 0; overflow: hidden; border-radius: .5cqw .5cqw 0 0; background: #fffef9; box-shadow: 0 -.4cqw 1.2cqw rgba(60,40,10,.2); display: flex; flex-direction: column; align-items: center; gap: .5cqw; padding-top: 0; font-size: calc(2cqw * var(--fs, 1)); font-weight: 700; }
+.pr-mach.on .pr-paper { height: 21cqw; padding-top: 1cqw; transition: height 5.4s linear; } .pr-paper .pr-av { width: 15cqw; font-size: 7cqw; flex: none; } .pr-paper span { max-width: 92%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+/* 对话气泡：回复谁 + 引用的弹幕；八种样式（data-bub），底色和文字颜色仍可在组件页单独改 */
+.bubble2 .rp { display: flex; align-items: center; gap: 1.2cqw; margin-bottom: .9cqw; font-size: calc(2.7cqw * var(--fs, 1)); font-weight: 700; opacity: .72; } .bubble2 .rp i { display: grid; place-items: center; width: 5cqw; height: 5cqw; flex: none; border-radius: 50%; color: #fff; font-style: normal; font-size: .88em; background: linear-gradient(135deg, var(--acc), var(--acc2)); box-shadow: 0 0 0 .3cqw #fff; }
+.bubble2 .qt { margin: 0 0 1.2cqw; padding-left: 1.6cqw; border-left: .7cqw solid color-mix(in srgb, var(--acc) 70%, #d6a73e); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: calc(3cqw * var(--fs, 1)); font-weight: 600; opacity: .78; }
+.bubble2 :is(.rp, .qt)[hidden] { display: none; } .bubble2:has(.rp:not([hidden])) .who { display: none; } .bubble2:has(.rp:not([hidden])) { padding-top: 2.6cqw; }
+.bubble2[data-bub="cream"] { padding: 3.4cqw 4.4cqw 3.6cqw; border-radius: 4.6cqw; background: var(--bub, #fff8e8); color: var(--bubink, #2b231b); box-shadow: 0 1.4cqw 3.6cqw rgba(120,76,16,.3), 0 0 0 .8cqw #efcd74, 0 0 0 1.1cqw #fff; outline: .36cqw dashed #e0b85a; outline-offset: -1.3cqw; }
+.bubble2[data-bub="cream"]::after { right: auto; left: 50%; margin-left: -2.2cqw; bottom: -3.4cqw; border: 2.2cqw solid transparent; border-top: 2.6cqw solid #efcd74; border-bottom: 0; }
+.bubble2[data-bub="cream"] .txt { font-weight: 800; font-size: calc(4cqw * var(--fs, 1) * var(--shrink, 1)); } .bubble2[data-bub="cream"] .who { background: #e7b54c; }
+.bubble2[data-bub="comic"] { padding: 3.6cqw 3.8cqw 3cqw; border-radius: 1.2cqw 5cqw 1.6cqw 4cqw; background: var(--bub, #fff); color: var(--bubink, #15151a); box-shadow: .9cqw 1cqw 0 #15151a; outline: .7cqw solid #15151a; outline-offset: 0; }
+.bubble2[data-bub="comic"]::after { right: 11cqw; bottom: -3cqw; border: 1.6cqw solid transparent; border-top: 2.8cqw solid #15151a; border-bottom: 0; } .bubble2[data-bub="comic"] .txt { font-weight: 800; } .bubble2[data-bub="comic"] .who { color: #15151a; background: #ffd83d; box-shadow: 0 0 0 .4cqw #15151a; }
+.bubble2[data-bub="note"] { padding: 4.2cqw 3.8cqw 3.2cqw; border-radius: .5cqw; background: var(--bub, repeating-linear-gradient(transparent 0 5.1cqw, rgba(100,130,190,.2) 5.1cqw 5.3cqw), #fffbdf); color: var(--bubink, #3a3323); box-shadow: 0 1.2cqw 2.6cqw rgba(60,45,10,.28); transform: rotate(-1deg); }
+.bubble2[data-bub="note"].show { transform: rotate(-1deg); } .bubble2[data-bub="note"]::after { right: auto; left: 50%; bottom: auto; top: -1.4cqw; width: 15cqw; height: 3cqw; margin-left: -7.5cqw; border: 0; background: rgba(248,214,142,.82); transform: rotate(2deg); } .bubble2[data-bub="note"] .who { display: none; }
+.bubble2[data-bub="neon"] { padding: 3.6cqw 3.8cqw 3cqw; border-radius: 2.4cqw; background: var(--bub, rgba(12,8,34,.9)); color: var(--bubink, #f4f1ff); box-shadow: 0 0 0 .4cqw var(--acc), 0 0 3cqw var(--acc), inset 0 0 2.4cqw color-mix(in srgb, var(--acc) 34%, transparent); }
+.bubble2[data-bub="neon"]::after { border-top-color: var(--acc); } .bubble2[data-bub="neon"] .rp i { box-shadow: 0 0 0 .3cqw var(--acc); }
+.bubble2[data-bub="candy"] { padding: 3.8cqw 4.2cqw 3.2cqw; border-radius: 6cqw; background: var(--bub, linear-gradient(135deg, #ffe7f1, #ffeedd)); color: var(--bubink, #5b2846); box-shadow: 0 1.4cqw 3.4cqw rgba(226,88,150,.32), inset 0 .5cqw .8cqw rgba(255,255,255,.9), inset 0 -.6cqw 1cqw rgba(246,146,190,.3); }
+.bubble2[data-bub="candy"]::after { border-top-color: #ffe9e6; } .bubble2[data-bub="candy"] .txt { font-weight: 700; }
+.bubble2[data-bub="glass"] { padding: 3.6cqw 3.8cqw 3cqw; border-radius: 3cqw; background: var(--bub, rgba(255,255,255,.32)); color: var(--bubink, #1f1d24); -webkit-backdrop-filter: blur(1.8cqw) saturate(1.5); backdrop-filter: blur(1.8cqw) saturate(1.5); box-shadow: 0 1.2cqw 3.6cqw rgba(0,0,0,.2), inset 0 0 0 .3cqw rgba(255,255,255,.62); }
+.bubble2[data-bub="glass"]::after { display: none; }
+.bubble2[data-bub="pixel"] { padding: 3.4cqw 3.8cqw 3cqw; border-radius: 0; background: var(--bub, #fff); color: var(--bubink, #18234d); box-shadow: -.8cqw 0 0 #18234d, .8cqw 0 0 #18234d, 0 -.8cqw 0 #18234d, 0 .8cqw 0 #18234d, 1.6cqw 1.6cqw 0 rgba(24,35,77,.3); font-family: "Consolas", "Microsoft YaHei", monospace; }
+.bubble2[data-bub="pixel"]::after { right: 9cqw; bottom: -3cqw; width: 2.4cqw; height: 2.4cqw; border: 0; background: #18234d; box-shadow: 2.4cqw -1.2cqw 0 #18234d; } .bubble2[data-bub="pixel"] .who { border-radius: 0; }
+.bbgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; width: 100%; }
+.bbopt { padding: 10px 6px 7px; border: 2px solid transparent; border-radius: 12px; background: #ded6c7; font: inherit; font-size: 12px; font-weight: 600; color: #333; cursor: pointer; container-type: inline-size; display: flex; flex-direction: column; gap: 6px; align-items: stretch; --acc: #e2679a; --acc2: #f4a24b; --ff: inherit; }
+.bbopt.on { border-color: var(--accent); } .bbopt .bubble2 { position: relative; left: auto; top: auto; width: auto; margin: 3cqw 4cqw 5cqw; padding: 8px 6px !important; opacity: 1; transform: none; transition: none; } .bbopt .bubble2 .txt { font-size: 13px; line-height: 1.3; text-align: center; }
 #sh-wish { position: absolute; left: 3cqw; top: 47%; width: 38cqw; padding: 2cqw 2.4cqw; display: flex; flex-direction: column; gap: 1.4cqw; z-index: 12; }
 #sh-wish .wh { font-size: 2.6cqw; font-weight: 800; color: var(--acc); } #sh-wish .wi span { display: flex; justify-content: space-between; font-size: 2.5cqw; font-weight: 700; }
 #sh-wish .wb { height: 1.2cqw; margin: .6cqw 0 .4cqw; border-radius: 99px; background: rgba(127,127,127,.25); overflow: hidden; }
@@ -1088,7 +1171,7 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
       <div class="sc clockcard"><b id="sh-time">--:--</b><span id="sh-date"></span></div>
       <div class="sc ticker"><i class="acc-grad" id="sh-tag">今日</i><div class="marq"><span id="sh-notice"></span></div></div>
       <div class="chalk" id="sh-guide"></div>
-      <div class="bubble2" id="sh-bubble"><span class="who acc-grad" id="sh-who">掌柜</span><div class="txt" id="sh-btxt"></div></div>
+      <div class="bubble2" id="sh-bubble"><span class="who acc-grad" id="sh-who">掌柜</span><div class="rp" id="sh-brp" hidden><i id="sh-bav"></i><span id="sh-brn"></span></div><div class="qt" id="sh-bq" hidden></div><div class="txt" id="sh-btxt"></div></div>
       <div class="opensign" id="sh-open">营业中</div>
       <div class="chatlog"><div class="t"><span id="sh-logtitle">店铺聊天记录</span><span id="sh-keeper"></span></div><div id="sh-log"></div></div>
       <div class="sc musicw" id="sh-music"><div class="mw-disc"><i></i></div>
@@ -1097,6 +1180,13 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
       <div id="widgets" style="display:contents"></div>
       <div class="sc" id="sh-wish" style="display:none"></div>
       <div id="sh-game"></div>
+      <div id="sh-feed"><div class="fd-table"></div><div class="fd-bowl"><div class="fd-ring" id="fd-ring"></div><div class="fd-dish"></div><div class="fd-food" id="fd-food"></div><div class="fd-no" id="fd-no"></div></div>
+        <div class="fd-rank"><span class="fd-eaten" id="fd-eaten"></span><div class="fd-prog"><span id="fd-pn"></span><div class="bar"><i id="fd-bar"></i></div><em id="fd-pv"></em></div><div id="fd-list" style="display:contents"></div></div>
+        <div class="fd-fx" id="fd-fx"></div></div>
+      <div id="sh-print"><div class="pr-desk"></div><div class="pr-rule"><div class="pr-title" id="pr-title"></div><div class="pr-sec"><h5>参与方式</h5><div id="pr-ways"></div></div><div class="pr-sec"><h5>礼物墙</h5><div class="pr-gifts" id="pr-gifts"></div></div></div>
+        <div class="pr-wall"><div class="pr-head" id="pr-head"></div><div class="pr-grid" id="pr-grid"></div></div>
+        <div class="pr-press"><div class="pr-count"><span>待印 <b id="pr-wait">0</b></span><span>已印 <b id="pr-done">0</b></span></div>
+          <div class="pr-mach" id="pr-mach"><div class="pr-tray"></div><div class="pr-paper" id="pr-paper"></div><div class="pr-body"><span class="pr-brand">PRINT</span><i class="pr-led"></i><div class="pr-slot"></div></div></div></div></div>
       <div id="sh-show"></div>
     </div>
     <div class="charbox" id="charbox"></div>
@@ -1289,8 +1379,8 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
       <!-- 活动（只在唠嗑页）：唠嗑 / 舞台跳舞 / 弹幕小游戏 + 礼物心愿 -->
       <div class="lvtab" data-t="act">
         <div class="card2">
-          <div class="row2" style="margin-top:0"><span class="lab">现在在做什么<small id="actstate"></small></span>
-            <div class="seg in-row" id="actseg" style="max-width:360px"><button data-v="talk">唠嗑</button><button data-v="dance">舞台跳舞</button><button data-v="game">弹幕小游戏</button></div></div>
+          <div class="row2" style="margin-top:0"><span class="lab">现在在做什么<small id="actstate"></small></span></div>
+          <div class="row2"><div class="seg in-row" id="actseg" style="max-width:none;width:100%"><button data-v="talk">唠嗑</button><button data-v="dance">舞台跳舞</button><button data-v="game">弹幕小游戏</button><button data-v="feed">点赞投喂</button><button data-v="print">头像工坊</button></div></div>
           <p class="hint2" style="margin-bottom:0">切换后主播会自己串场；跳舞跳完、游戏玩完会自动回到唠嗑。</p>
         </div>
         <div class="card2">
@@ -1309,6 +1399,23 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
           <div class="row2 actquiz"><span class="lab">出题范围<small>大模型现出题，空着 = 生活常识、冷知识</small></span><input class="inp" id="acttopic" placeholder="如 动物、美食、历史" maxlength="60"></div>
           <div class="row2"><span class="lab">积分榜</span><div class="rank2" id="actrank" style="flex:1;margin:0"></div><button class="btn2" id="actrankclr">清零</button></div>
           <details class="fold" open><summary>玩家记录 <span class="n" id="recn"></span><select class="inp" id="recsel" style="max-width:260px;margin-left:auto"></select></summary><div id="recbox"></div></details>
+        </div>
+        <div class="card2">
+          <h3>点赞投喂 <small>大家点赞帮主播加饭，吃完一份换下一份</small></h3>
+          <div class="row2" style="margin-top:0"><span class="lab">进度<small id="fdstate"></small></span><button class="btn2" id="fdlike">模拟点赞</button><button class="btn2" id="fdgift">模拟礼物</button><button class="btn2" id="fdclr">清零</button></div>
+          <div class="row2"><span class="lab">吃什么</span><select class="inp" id="fdfood" style="max-width:160px"><option value="rice">米饭</option><option value="noodle">拉面</option><option value="cake">蛋糕</option><option value="burger">汉堡</option><option value="hotpot">火锅</option><option value="melon">西瓜</option></select></div>
+          <div class="row2"><span class="lab">吃完一份要多少分</span><input class="inp" id="fdgoal" type="number" min="10" max="99999" style="max-width:120px"></div>
+          <div class="row2"><span class="lab">一条点赞算几分<small>抖音网页看不到点了几下，一条点赞消息算一次</small></span><input class="inp" id="fdlv" type="number" min="1" max="999" style="max-width:120px"></div>
+          <div class="row2"><span class="lab">一个礼物算几分</span><input class="inp" id="fdgv" type="number" min="1" max="9999" style="max-width:120px"></div>
+          <p class="hint2">主播不会催点赞、催礼物。组件位置在「组件」里选「点赞投喂」场景调整。</p>
+        </div>
+        <div class="card2">
+          <h3>头像工坊 <small>点赞够数或送指定礼物，打印一张专属卡片</small></h3>
+          <div class="row2" style="margin-top:0"><span class="lab">进度<small id="prstate"></small></span><button class="btn2" id="prlike">模拟点赞</button><button class="btn2" id="prgift">模拟礼物</button><button class="btn2" id="prclr">清空</button></div>
+          <div class="row2"><span class="lab">标题<small>空着 = 主播名的头像工坊</small></span><input class="inp" id="prtitle" maxlength="16" style="max-width:220px"></div>
+          <div class="row2"><span class="lab">点赞几次印一张<small>每人只印一张</small></span><input class="inp" id="prneed" type="number" min="1" max="99" style="max-width:120px"></div>
+          <div class="row2"><span class="lab">送什么礼物直接印<small>空着 = 不用礼物印；每个礼物印一张</small></span><input class="inp" id="prgiftname" maxlength="12" style="max-width:160px"></div>
+          <p class="hint2">卡片上的分数是程序随机给的，图个乐；四字词和夸奖由大模型写。页面能取到观众头像时用头像，取不到就用昵称生成。</p>
         </div>
         <div class="card2">
           <h3>礼物心愿 <small>画面上显示进度条，攒够了主播道谢并兑现</small></h3>
@@ -1902,10 +2009,10 @@ function applyActivity(a) {
   const st = $("stage"), id = MODE !== "chat" ? "talk" : PREVIEW_SCENE ? PREVIEW_SCENE : ACT.id || "talk";
   if (applyActivity.want !== id) {  // 目标变了才重新计时：连着切几次只认最后一次；同一个目标不重置（观众答题时事件很密，一直重置就切不过去）
     clearTimeout(applyActivity.t); applyActivity.t = 0; applyActivity.want = id;
-    if ((st.dataset.act || "talk") !== id) { st.classList.add("swap"); applyActivity.t = setTimeout(() => { st.dataset.act = id; st.classList.remove("swap"); applyActivity.t = 0; applyScene(); renderGame(); }, 260); }
+    if ((st.dataset.act || "talk") !== id) { st.classList.add("swap"); applyActivity.t = setTimeout(() => { st.dataset.act = id; st.classList.remove("swap"); applyActivity.t = 0; applyScene(); renderGame(); renderFeed(); renderPrint(); }, 260); }
     else { st.classList.remove("swap"); applyScene(); }
   } else if (!applyActivity.t) applyScene();
-  renderGame(); renderWish();
+  renderGame(); renderWish(); renderFeed(); renderPrint();
 }
 function renderGame() {
   const demo = PREVIEW_SCENE === "game" && !(ACT.id === "game" && ACT.game), g = demo ? DEMO_GAME : ACT.game, box = $("sh-game"), L = "ABCD";  // 预览调布局时没在玩：放一块示例题板
@@ -1952,9 +2059,44 @@ function renderGameOver(box, g) {  // 全部轮次结束：大屏领奖台（第
     ${confetti}</div>`;
 }
 // 每 3 秒和后端核对一次：事件漏收（连接断过、窗口卡过）时题板也能追上，不会主播在念题、画面却不动
-const actSig = a => JSON.stringify([a?.id, a?.game?.phase, a?.game?.round, a?.game?.q, a?.game?.n_ans, a?.game?.paused, a?.scores]);
+const actSig = a => JSON.stringify([a?.id, a?.game?.phase, a?.game?.round, a?.game?.q, a?.game?.n_ans, a?.game?.paused, a?.scores, a?.feed?.n, a?.feed?.bowl, a?.print?.done, a?.print?.wait, a?.print?.cur?.nick]);
 setInterval(() => { if (LIVE && MODE === "chat") fetch("/api/activity_state").then(r => r.json()).then(v => { if (actSig(v) !== actSig(ACT)) applyActivity(v); }).catch(() => {}); }, 3000);
 setInterval(() => { const c = $("gmcd"); if (c && ACT.game?.deadline) c.textContent = Math.max(0, Math.ceil(ACT.game.deadline - Date.now() / 1000)) + "s"; }, 250);
+const DEMO_FEED = {bowl: 3, eaten: 2, n: 132, goal: 300, food: "米饭", emoji: "🍚", unit: "碗", board: [["示例观众甲", 209], ["示例观众乙", 139], ["示例观众丙", 19]]};
+const DEMO_PRINT = {title: "小柚的头像工坊", need: 3, gift: "小心心", done: 12, wait: 2, gifts: [["示例观众", 3]], cur: null, cards: [{id: 1, nick: "示例观众甲", score: 90, tag: "眉目如画", hue: 330}, {id: 2, nick: "示例观众乙", score: 74, tag: "才思敏捷", hue: 200}]};
+const FEED_TIER = v => v >= 100 ? "爆赞" : v >= 40 ? "一捧" : "一勺";
+let feedPop = null, feedAte = null;
+function feedFx(p) {  // 有人投喂：飘 +分数、爱心和一条提示，食物抖一下
+  const fx = $("fd-fx"), mk = (cls, html, css) => { const e = document.createElement("div"); e.className = cls; e.innerHTML = html; e.style.cssText = css; fx.appendChild(e); e.onanimationend = () => e.remove(); };
+  mk("fd-plus", "+" + p.pts, `left:${6 + Math.random() * 30}%;top:${70 + Math.random() * 7}%`);
+  mk("fd-toast", `${esc(p.nick)} ${esc(p.why)} <em>+${p.pts}</em>`, "");
+  for (let i = 0; i < 3; i++) mk("fd-heart", ["💗", "💛", "💙"][i], `left:${12 + Math.random() * 18}%;top:84%;--dx:${(Math.random() * 12 - 6).toFixed(1)}cqw;animation-delay:${i * .12}s`);
+  const f = $("fd-food"); f.classList.remove("bite"); void f.offsetWidth; f.classList.add("bite");
+}
+function renderFeed() {
+  const demo = PREVIEW_SCENE === "feed" && ACT.id !== "feed", f = demo ? DEMO_FEED : ACT.feed;
+  if (!f || (ACT.id !== "feed" && !demo)) return;
+  $("fd-food").textContent = f.emoji; $("fd-ring").style.setProperty("--p", Math.min(100, f.n / f.goal * 100) + "%");
+  $("fd-no").textContent = `第 ${f.bowl} ${f.unit}${f.food}`; $("fd-pn").textContent = `第 ${f.bowl} ${f.unit}`; $("fd-pv").textContent = `${f.n}/${f.goal}`;
+  $("fd-bar").style.width = Math.min(100, f.n / f.goal * 100) + "%"; $("fd-eaten").textContent = `已吃 ${f.eaten}`; $("fd-eaten").style.visibility = f.eaten ? "" : "hidden";
+  $("fd-list").innerHTML = f.board.map(([n, v], i) => `<div class="fd-row"><b>${i ? "" : "👑 "}${esc(n)}</b><span>×${v}</span><small>${FEED_TIER(v)}</small></div>`).join("");
+  if (!demo && f.pop && f.pop.id !== feedPop) { if (feedPop !== null) feedFx(f.pop); feedPop = f.pop.id; }
+  if (!demo) { if (feedAte !== null && f.eaten > feedAte) playMotion("cheer"); feedAte = f.eaten; }
+}
+const prFace = x => `<div class="pr-av" style="--h:${x.hue ?? 330}">${esc([...(x.nick || "观")][0])}${x.avatar ? `<img src="${attr(x.avatar)}" referrerpolicy="no-referrer" alt="" onerror="this.remove()">` : ""}</div>`;
+function renderPrint() {
+  const demo = PREVIEW_SCENE === "print" && ACT.id !== "print", p = demo ? DEMO_PRINT : ACT.print;
+  if (!p || (ACT.id !== "print" && !demo)) return;
+  $("pr-title").textContent = p.title;
+  $("pr-ways").innerHTML = `<div class="pr-way"><i>赞</i>连赞 ${p.need} 次<small>每人 1 张</small></div>` + (p.gift ? `<div class="pr-way"><i>♥</i>${esc(p.gift)} × 1<small>印 1 张</small></div>` : "");
+  $("pr-gifts").innerHTML = p.gifts.map(([n, v]) => `<span><b>${esc(n)}</b><em>×${v}</em></span>`).join("") || "<span>虚位以待</span>";
+  $("pr-head").textContent = p.cur ? `${p.cur.nick}，正在印…` : p.cards[0] ? `${p.cards[0].nick}，印好啦` : "等第一位观众";
+  const sig = p.cards.map(c => c.id).join();  // 卡片变了才重画：不然每次有人点赞，飞入动画都重放一遍
+  if ($("pr-grid").dataset.sig !== sig || !$("pr-grid").firstChild) { $("pr-grid").dataset.sig = sig; $("pr-grid").innerHTML = p.cards.map(c => `<div class="pr-card">${prFace(c)}<b>${esc(c.nick)}</b><u>${c.score} 分</u><span class="pr-tag">${esc(c.tag)}</span></div>`).join("") || `<div class="pr-empty">印好的卡片贴在这里</div>`; }
+  $("pr-wait").textContent = p.wait; $("pr-done").textContent = p.done;
+  const m = $("pr-mach"), nick = p.cur?.nick || "";
+  if (m.dataset.nick !== nick) { m.dataset.nick = nick; m.classList.remove("on"); $("pr-paper").innerHTML = nick ? `${prFace(p.cur)}<span>${esc(nick)}</span>` : ""; void m.offsetWidth; m.classList.toggle("on", !!nick); }
+}
 function renderWish() {
   const w = ACT.wish, el = $("sh-wish"), empty = !w?.items?.length, hint = empty && window.parent !== window;  // 开没开由场景开关（组件页「礼物心愿」）决定
   const on = MODE === "chat" && (!empty || hint);
@@ -2879,10 +3021,12 @@ document.addEventListener("keydown", e => { if ((e.ctrlKey || e.metaKey) && e.ke
 
 /* ---------- 直播控制台：所有开关改了立刻生效（直播画面跟着变）。分四页：控制 / 画面 / 组件 / 输出 ---------- */
 let LVS = null, phEditing = false, tsEditing = false, PSEL = null, saveTimer, ESC = "main";  // ESC：组件页正在调的场景
+const BUBBLES = {classic: "经典", cream: "奶油虚线", comic: "漫画", note: "便签", neon: "霓虹", candy: "软糖", glass: "毛玻璃", pixel: "像素"};
 const SHOW_NAMES = {clock: "时钟", ticker: "滚动公告", chalk: "黑板", open: "营业牌", log: "聊天记录", bubble: "对话气泡", wish: "礼物心愿"};
 const PART_NAMES = {namecard: "店名卡片", clock: "时钟", ticker: "滚动公告", chalk: "黑板", bubble: "对话气泡", open: "营业牌", log: "聊天记录", ailabel: "AI 标识", char: "掌柜", counter: "柜台", music: "音乐播放器",
-  wish: "礼物心愿", game: "小游戏题板"};
-const PART_WHERE = {wish: () => LVS.mode === "chat", game: () => ESC === "game"};  // 只在某些地方列出来：心愿只在唠嗑，题板只在小游戏场景
+  wish: "礼物心愿", game: "小游戏题板", feedtable: "桌面", feedbowl: "投喂食物", feedrank: "投喂榜", prdesk: "桌面", prwall: "卡片墙", prrule: "参与方式和礼物墙", prpress: "打印机"};
+const PART_WHERE = {wish: () => LVS.mode === "chat", game: () => ESC === "game", feedtable: () => ESC === "feed", feedbowl: () => ESC === "feed", feedrank: () => ESC === "feed",
+  prdesk: () => ESC === "print", prwall: () => ESC === "print", prrule: () => ESC === "print", prpress: () => ESC === "print"};  // 只在某些地方列出来：心愿只在唠嗑，活动组件只在自己的场景
 const NO_STYLE = ["char", "counter"];  // 人物和柜台没有文字可改
 // 常见抖音礼物价格（抖币，1 抖币 = 0.1 元）：网上整理，抖音会调价，以抖音 App 里的为准
 const GIFT_PRICES = "小心心=1\n玫瑰=1\n抖音=1\n粉丝团灯牌=1\n你最好看=2\n大啤酒=2\n棒棒糖=9\n鲜花=10\n加油鸭=15\n送你花花=49\n爱你哟=52\n如意锦囊=99\n比心=199\n做我的猫=299\n真的爱你=520\n热气球=520\n浪漫花火=599\n掌上明珠=888\n纸短情长=921\n保时捷=1200\n浪漫恋人=1999\n直升机=2999\n私人飞机=3000\n浪漫列车=3999\nDisco=4999\n为爱启航=10001\n宇宙之心=18888\n抖音飞艇=20000\n梦幻城堡=28888\n浪漫马车=28888\n嘉年华=30000";
@@ -3109,7 +3253,7 @@ $("plist").addEventListener("click", e => {
   openPart(k);
 });
 // 场景：组件页 / 布局卡片上选「调整哪个场景」，开关和位置存到那个场景；预览跟着切过去
-const SCENE_NAMES = () => LVS?.mode === "chat" ? {main: "唠嗑", dance: "舞台跳舞", game: "小游戏"} : {main: "主场景", wall: "项目墙", detail: "项目详情"};
+const SCENE_NAMES = () => LVS?.mode === "chat" ? {main: "唠嗑", dance: "舞台跳舞", game: "小游戏", feed: "点赞投喂", print: "头像工坊"} : {main: "主场景", wall: "项目墙", detail: "项目详情"};
 const escLay = () => ESC === "main" ? LVS.layout : (LVS.scenes?.[ESC]?.layout || {});
 const layPatch = lay => ESC === "main" ? {layout: lay} : scenePatch({layout: lay});
 function pickEsc(v) {
@@ -3165,15 +3309,24 @@ function openPart(k, keepScroll) {
       <label>清空</label><div class="ctl"><button class="btn2" id="ledclr">清空今天</button><button class="btn2 danger" id="ledclrall">清空全部</button></div>`,
     prices: inp("title", "标题", "如 门票价格") + `<label>内容来自</label><div class="ctl"><select class="inp" data-p="section">${LVS.sections.map(s => `<option value="${s.id}" ${s.id === P.section ? "selected" : ""}>知识库 · ${esc(s.title || "未命名分类")}</option>`).join("")}</select></div>` + inp("rows", "最多几行", "", "number"),
   }[w.type];
+  const bubRow = k === "bubble" ? `<div class="psec">气泡样式<small>所有场景通用；底色和文字颜色在下面还能单独改</small></div>
+    <span></span><div class="ctl"><div class="bbgrid" id="bbgrid">${Object.entries(BUBBLES).map(([v, n]) => `<button class="bbopt ${(LVS.bubble?.style || "classic") === v ? "on" : ""}" data-bub="${v}"><div class="bubble2 show" data-bub="${v}"><div class="txt">你好呀</div></div>${n}</button>`).join("")}</div></div>
+    <label>回复弹幕时引用</label><div class="ctl"><input type="checkbox" class="switch" id="bbquote" ${LVS.bubble?.quote !== false ? "checked" : ""}><span class="hint2" style="margin:0">显示「回复 @观众」和观众说的话</span></div>` : "";
   const fitRow = k === "char" ? `<div class="psec">显示方式<small>${ESC === "main" ? "主场景（其他场景没单独设过的也跟着它）" : `「${SCENE_NAMES()[ESC]}」场景`}</small></div>
     <label>半身 / 全身</label><div class="ctl"><div class="seg in-row" id="charfit" style="max-width:280px"><button data-v="auto">自动</button><button data-v="half">半身</button><button data-v="full">全身</button></div></div>` : "";
-  $("pedprops").innerHTML = fitRow + (props && k !== "char" ? `<div class="psec">${w ? "内容" : "文字内容"}</div>` + props : props);
+  $("pedprops").innerHTML = bubRow + fitRow + (props && k !== "char" ? `<div class="psec">${w ? "内容" : "文字内容"}</div>` + props : props);
   if (k === "char") seg("charfit", ESC === "main" ? LVS.charfit || "auto" : LVS.scenes?.[ESC]?.fit || "auto",
     v => liveSet(ESC === "main" ? {charfit: v} : scenePatch({fit: v === "auto" ? "" : v})).then(() => openPart("char", true)));
   $("ps-ink").value = st.ink || th.ink; $("ps-card").value = st.card || th.card; $("ps-alpha").value = st.alpha ?? th.alpha; $("ps-alphav").textContent = $("ps-alpha").value + "%";
   $("ps-fs").value = Math.round((st.fs || 1) * 100); $("ps-fsv").textContent = $("ps-fs").value + "%";
   $("ps-font").innerHTML = '<option value="">跟随主题</option>' + Object.entries(FONTS).filter(([f]) => f).map(([f, v]) => `<option value="${f}">${v[0]}</option>`).join(""); $("ps-font").value = st.font || "";
   $("peddel").hidden = !w;
+  if (k === "bubble") {
+    const set = patch => liveSet({bubble: {...(LVS.bubble || {}), ...patch}}).then(() => { openPart("bubble", true); $("pv").contentWindow?.demoBubble?.(); });
+    $("bbgrid").onclick = e => { const b = e.target.closest(".bbopt"); if (b) set({style: b.dataset.bub}); };
+    $("bbquote").onchange = e => set({quote: e.target.checked});
+    if (!keepScroll) $("pv").contentWindow?.demoBubble?.();
+  }
   if (!keepScroll) $("pedit").scrollIntoView({behavior: "smooth", block: "nearest"});
 }
 $("pedclose").onclick = () => { PSEL = null; $("pedit").hidden = true; document.querySelectorAll(".prow").forEach(r => r.classList.remove("sel")); };
@@ -3235,7 +3388,7 @@ $("pedprops").addEventListener("input", e => {
   if (k === "on") setTimeout(() => openPart("char", true), 300);
 }, true);
 // 位置大小：数值精确调整（占画面的百分比），没调过的从预览里量出当前位置
-const POS_H = k => ["char", "log", "counter"].includes(k) || LVS.widgets.find(w => w.id === k)?.type === "image";
+const POS_H = k => ["char", "log", "counter", "feedtable", "prdesk"].includes(k) || LVS.widgets.find(w => w.id === k)?.type === "image";
 function curRect(k) {
   const pv = $("pv").contentWindow, lay = escLay();
   if (lay[k] && !pv?.editingLayout?.()) return lay[k];
@@ -3356,6 +3509,7 @@ let ACTV = null;
 const actCfg = () => {
   const a = TK.live?.activity || {};
   return {dance: {songs: 1, power: 1, ...(a.dance || {})}, game: {type: "guess", rounds: 5, secs: 20, topic: "", level: "mid", ...(a.game || {})},
+    feed: {food: "rice", goal: 300, like: 10, gift: 30, ...(a.feed || {})}, print: {need: 3, gift: "小心心", title: "", ...(a.print || {})},
     wish: {on: false, items: [{gift: "小心心", n: 99, reward: "跳一支舞", act: "dance"}], ...(a.wish || {})}};
 };
 function renderActConsole(v) {
@@ -3365,7 +3519,13 @@ function renderActConsole(v) {
   seg("actseg", a.id, id => api("/api/activity", {act: id}).then(r => r.error ? toast(r.error, "知道了", () => {}) : renderActConsole(r)));
   $("actstate").textContent = TK.live.mode !== "chat" ? "唠嗑直播还没开：先在「人设」里「使用」一个人设"
     : a.id === "dance" ? `正在跳舞${a.songs ? `，还剩 ${a.songs} 首` : "（一直跳，点「唠嗑」停下）"}`
+    : a.id === "feed" ? "正在吃播，点赞、送礼都会加饭" : a.id === "print" ? "头像工坊营业中"
     : a.id === "game" && g ? `${g.type === "quiz" ? "答题挑战" : "猜数字"} · 第 ${g.round} / ${g.rounds} ${g.type === "quiz" ? "题" : "轮"}` : "正在唠嗑";
+  { const F = a.feed, P = a.print, keep = (id, v) => { if (document.activeElement !== $(id)) $(id).value = v; };
+    $("fdstate").textContent = F ? `第 ${F.bowl} ${F.unit}，${F.n} / ${F.goal}，已吃完 ${F.eaten} ${F.unit}` : "";
+    $("prstate").textContent = P ? `待印 ${P.wait}，已印 ${P.done}${P.cur ? `，正在印 ${P.cur.nick}` : ""}` : "";
+    $("fdfood").value = c.feed.food; keep("fdgoal", c.feed.goal); keep("fdlv", c.feed.like); keep("fdgv", c.feed.gift);
+    keep("prneed", c.print.need); keep("prtitle", c.print.title); keep("prgiftname", c.print.gift); }
   $("actsongs").value = String(c.dance.songs); $("actpower").value = c.dance.power; $("actpowerv").textContent = (+c.dance.power).toFixed(1);
   seg("actgame", c.game.type, t => actSave({game: {...actCfg().game, type: t}}).then(() => {
     if (ACTV?.id === "game") api("/api/activity", {act: "game"}).then(r => { renderActConsole(r); toast(`已换成${t === "quiz" ? "答题挑战" : "猜数字"}，重新开始`); });
@@ -3406,6 +3566,18 @@ $("wishon").onchange = () => {
   const on = $("wishon").checked, L0 = LVS || TK.live, items = actCfg().wish.items;
   liveSet({show: {...L0.show, wish: on}, ...(on && !items.length ? {activity: {...actCfg(), wish: {on: true, items: [WISH_DEFAULT]}}} : {})}).then(() => { TK.live = LVS; renderActConsole(); });
 };
+const SIM_NICKS = ["测试小鱼", "测试阿橙", "测试青宁", "测试星汐"], simNick = () => SIM_NICKS[Math.floor(Math.random() * SIM_NICKS.length)];
+const simPush = item => api("/api/danmaku_push", {items: [{nick: simNick(), test: true, ...item}]});
+const simGift = () => simPush({type: "gift", text: actCfg().print.gift || "小心心", n: 1});
+$("fdlike").onclick = $("prlike").onclick = () => simPush({type: "like"});
+$("fdgift").onclick = $("prgift").onclick = simGift;
+$("fdclr").onclick = () => api("/api/activity", {action: "feed_reset"}).then(r => { renderActConsole(r); toast("投喂进度已清零"); });
+$("prclr").onclick = () => api("/api/activity", {action: "print_reset"}).then(r => { renderActConsole(r); toast("卡片已清空"); });
+const numCfg = (id, part, key) => { $(id).onchange = () => actSave({[part]: {...actCfg()[part], [key]: +$(id).value}}); };
+numCfg("fdgoal", "feed", "goal"); numCfg("fdlv", "feed", "like"); numCfg("fdgv", "feed", "gift"); numCfg("prneed", "print", "need");
+$("fdfood").onchange = () => actSave({feed: {...actCfg().feed, food: $("fdfood").value}}).then(() => api("/api/activity", {action: "get"}).then(renderActConsole));
+$("prtitle").onchange = () => actSave({print: {...actCfg().print, title: $("prtitle").value.trim()}});
+$("prgiftname").onchange = () => actSave({print: {...actCfg().print, gift: $("prgiftname").value.trim()}});
 $("wishclr").onclick = () => api("/api/activity", {action: "wish_reset"}).then(r => { renderActConsole(r); toast("心愿进度已清零"); });
 $("actsongs").onchange = () => actSave({dance: {...actCfg().dance, songs: +$("actsongs").value}});
 $("actpower").oninput = () => { $("actpowerv").textContent = (+$("actpower").value).toFixed(1); };
@@ -3713,7 +3885,7 @@ es.onmessage = ev => {
     }
     case "play":
       autoMotion(e.text, e.latency != null);  // 按这句话的内容配动作（latency 只在每轮回答的第一句有）
-      S.speaking = true; S.thinking = false; S.pct = null; $("prog").style.width = "0"; caption(e.text); if (LIVE) bubble(e.text);
+      S.speaking = true; S.thinking = false; S.pct = null; $("prog").style.width = "0"; caption(e.text); if (LIVE) bubble(e.text, e.reply);
       if (e.latency != null) { $("lat").textContent = e.latency.toFixed(2) + " s"; step("play", "done", e.latency * 1000, "说完到开口"); pushLat(e.latency); }
       refresh(); break;
     case "speak": speak = e; if (LIVE) typeBubble(e); break;
@@ -4095,6 +4267,7 @@ function applyLive(L, wdata) {  // 直播设置：场景 / 比例 / 背景 / 主
   $("sh-bgimg").hidden = !img; if (img) $("sh-bgimg").src = "/livebg/" + L.bg;
   applySceneTheme(L.theme); renderWidgets(L.widgets, wdata);
   MAINSHOW = L.show || {}; SCENES = L.scenes || {}; CHARFIT = L.charfit || "auto";
+  $("sh-bubble").dataset.bub = L.bubble?.style || "classic"; QUOTE = L.bubble?.quote !== false;
   setFollow(L.follow); MOTION = {...MOTION, ...(L.motion || {})};
   if (JSON.stringify(L.badge) !== JSON.stringify(BADGE) && L.badge) { BADGE = {...L.badge}; applyBadge(); }
   if (!EDIT) applyLayout(L.layout);
@@ -4119,17 +4292,19 @@ function applyOrder(order) {
    单击元素 = 在控制台里打开它的设置。位置存成占画面的百分比 ---------- */
 const PARTS = {char: ["#charbox", "掌柜"], namecard: [".namecard", "店名卡片"], clock: [".clockcard", "时钟"], ticker: [".ticker", "滚动公告"],
   chalk: ["#sh-guide", "黑板"], bubble: ["#sh-bubble", "对话气泡"], open: ["#sh-open", "营业牌"], log: [".chatlog", "聊天记录"],
-  counter: [".shop-counter", "柜台"], ailabel: [".ailabel", "AI 标识"], music: ["#sh-music", "音乐播放器"], wish: ["#sh-wish", "礼物心愿"], game: ["#sh-game .gm-card", "小游戏题板"]};
-const FIXED_H = ["char", "log", "counter"];  // 这几个能改高度；其余高度随内容（图片组件例外，见 canH）
+  counter: [".shop-counter", "柜台"], ailabel: [".ailabel", "AI 标识"], music: ["#sh-music", "音乐播放器"], wish: ["#sh-wish", "礼物心愿"], game: ["#sh-game .gm-card", "小游戏题板"],
+  feedtable: [".fd-table", "桌面"], feedbowl: [".fd-bowl", "投喂食物"], feedrank: [".fd-rank", "投喂榜"], prdesk: [".pr-desk", "桌面"], prwall: [".pr-wall", "卡片墙"], prrule: [".pr-rule", "参与方式和礼物墙"], prpress: [".pr-press", "打印机"]};
+const FIXED_H = ["char", "log", "counter", "feedtable", "prdesk"];  // 这几个能改高度；其余高度随内容（图片组件例外，见 canH）
 const canH = k => FIXED_H.includes(k) || WIDGETS.find(w => w.id === k)?.type === "image";
 let LAYOUT = {}, EDIT = null;
 const partKeys = () => [...Object.keys(PARTS), ...WIDGETS.map(w => w.id)];
 // ---------- 场景：每个场景各自的组件开关和位置（live.scenes[场景] = {show, layout}）。主场景用 show / layout；
 // 别的场景没设置过的元素跟着主场景，再收起这个场景默认用不上的（如跳舞时的柜台、项目墙时的聊天记录）
-const SCENE_HIDE = {dance: ["counter", "chalk", "open"], game: ["chalk", "open", "wish"],
+const SCENE_HIDE = {dance: ["counter", "chalk", "open"], game: ["chalk", "open", "wish"], feed: ["counter", "chalk", "open", "log", "wish", "ticker", "music"],
+  print: ["counter", "chalk", "open", "log", "wish", "ticker", "music", "namecard", "clock", "widgets"],
   wall: ["chalk", "open", "counter", "log", "music", "wish", "widgets"], detail: ["chalk", "open", "counter", "log", "music", "wish", "widgets"]};
 const ALWAYS_ON = ["char", "ailabel", "game"];  // 人物、AI 标识、题板每个场景都在（题板只在小游戏里出现）
-const SCENE_FRONT = {game: ["game", "char", "bubble"], wall: ["char", "bubble"], detail: ["char", "bubble"]};  // 这些场景没排过图层时：人物站到柜台、题板前面
+const SCENE_FRONT = {game: ["game", "char", "bubble"], feed: ["char", "feedtable", "feedbowl", "feedrank", "bubble"], print: ["prwall", "prrule", "char", "prdesk", "prpress", "bubble"], wall: ["char", "bubble"], detail: ["char", "bubble"]};  // 这些场景没排过图层时：人物站到柜台、题板前面
 let SCENES = {}, SCENE_ID = "main", PREVIEW_SCENE = null, MAINLAY = {}, MAINSHOW = {}, MAINORDER = [], CHARFIT = "auto", REAL_SHOW = ["main"];
 function orderFor(id, keys, main, scenes) {  // 某个场景从下到上的图层：场景自己排过就用它；没排过 = 主场景的顺序，再按 SCENE_FRONT 把人物提到前面
   const own = id !== "main" ? scenes[id]?.order : null, cur = (own?.length ? own : main || []).filter(k => keys.includes(k));
@@ -4325,10 +4500,17 @@ function pushLog(m) {  // 聊天记录：观众的话 + 掌柜的回答（同一
   $("sh-log").innerHTML = LOG.map(l => `<div><b>${esc(l.who)}：</b>${esc(l.text)}</div>`).join("");
 }
 let bubbleTimer, typeRaf, bubbleText = "";
-function bubble(text) {  // 掌柜头顶的对话气泡：说话时显示当前这句（长句自动缩小字号），整段话说完就收起
+let QUOTE = true;
+window.demoBubble = () => {  // 控制台选气泡样式时：在预览里看看效果
+  bubble("这里是气泡样式的预览，看看喜不喜欢～", {nick: "示例观众", q: "这个气泡好好看"});
+  clearTimeout(bubbleTimer); bubbleTimer = setTimeout(() => $("sh-bubble").classList.remove("show"), 6000);
+};
+function bubble(text, reply) {  // 掌柜头顶的对话气泡：说话时显示当前这句（长句自动缩小字号），整段话说完就收起；回答弹幕时带上「回复 @谁」和引用
   clearTimeout(bubbleTimer);  // 每句说完都会来一次 null：1.5 秒内接着说下一句就不收，说完最后一句才消失
   if (!text) return void (bubbleTimer = setTimeout(() => $("sh-bubble").classList.remove("show"), 1500));
   bubbleText = text; cancelAnimationFrame(typeRaf); $("sh-btxt").textContent = text;
+  const r = QUOTE ? reply : null; $("sh-brp").hidden = $("sh-bq").hidden = !r;
+  if (r) { $("sh-bav").textContent = [...r.nick][0] || "观"; $("sh-brn").textContent = "回复 @" + r.nick; $("sh-bq").textContent = `“${r.q}”`; }
   $("sh-bubble").style.setProperty("--shrink", text.length > 64 ? .78 : text.length > 38 ? .88 : 1); $("sh-bubble").classList.add("show");
 }
 function typeBubble(sp) {  // 跟着声音逐字出现：speak 事件带了这句开口的时刻和时长（真人模式没有这个事件，就整句直接显示）
