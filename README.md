@@ -16,7 +16,7 @@ Windows 上的 AI 数字人唠嗑直播助手：一个 Live2D 主播看着抖音
 
 ## 怎么用
 
-1. 到 [Releases](../../releases) 下载 `AI唠嗑主播.exe`，双击运行
+1. 到 [Releases](../../releases/latest) 下载最新的 `.exe`，双击运行
    - Windows 可能提示「已保护你的电脑」：这是因为 exe 没有代码签名，点「更多信息 → 仍要运行」
    - 第一次启动要解压，等十几秒
 2. 按提示填大模型 API Key（推荐 [DeepSeek](https://platform.deepseek.com/)，也支持其他 OpenAI 兼容接口）
