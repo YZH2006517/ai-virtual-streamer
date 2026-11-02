@@ -891,7 +891,7 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
 .toast button { color: var(--accent); font-weight: 600; }
 
 /* 这个版本只有唠嗑：不显示别的页和用不上的设置 */
-#viewtabs, #homebtn, #sidebtn, #home, [data-go="mode"], [data-go="vad"], [data-go="avatar"], .shoponly, .bgt.in.st, .bgt.in.sy, .bgt.in.cf { display: none !important; }
+#viewtabs, #homebtn, #sidebtn, #home, [data-go="mode"], [data-go="vad"], [data-go="avatar"], [data-tts]:not([data-tts="edge"]), .shoponly, .bgt.in.st, .bgt.in.sy, .bgt.in.cf { display: none !important; }
 </style>
 </head>
 <body>
@@ -1561,9 +1561,7 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
     <div class="page" data-p="voice" data-t="声音">
       <div class="group">
         <div class="row"><span class="k">语音引擎</span><select class="field" id="ttseng">
-          <option value="edge">Edge 在线（微软，免费）</option><option value="qwen">千问云端（阿里云百炼）</option>
-          <option value="qwen_local">千问本地 · 二次元音色</option><option value="sovits">GPT-SoVITS 本地 · 二次元音色</option>
-          <option value="local">Kokoro 本地（离线，最快）</option></select></div>
+          <option value="edge">Edge 在线（微软，免费，需要联网）</option></select></div>
         <div class="row" data-tts="edge"><span class="k">音色</span><select class="field" id="voice"></select></div>
         <div class="row" data-tts="local"><span class="k">音色<span class="sub">100 个中文音色，按音调从低到高排</span></span><select class="field" id="localvoice"></select></div>
         <div class="row" data-tts="qwen"><span class="k">音色<span class="sub">含四川话、粤语、北京话等方言</span></span><select class="field" id="qwenvoice"></select></div>
@@ -1594,9 +1592,6 @@ input[type=range] { width: 180px; accent-color: var(--accent); }
         <div class="row"><span class="k">音画同步微调<span class="sub" id="avsub"></span></span><input type="range" id="avoff" min="-300" max="300" step="10"><span class="v" id="avoffv" style="width:64px"></span></div>
       </div>
       <p class="foot"><b>在线（Edge）</b>：微软的 16 个中文音色（普通话、方言、粤语、台湾腔），带词级时间，口型最准，需要联网。
-        <b>千问本地 / GPT-SoVITS</b>：在自己的显卡上用二次元参考音色说话，不联网、不按字收费；音色是按文字描述生成的原创声音，可以自己设计新的。第一次使用要加载模型（约 10~20 秒）。
-        <b>千问云端</b>：阿里云百炼的 qwen3-tts-flash，48 个音色（含方言），更像真人，按字数计费；Key 在百炼控制台「API-KEY」里创建，只以加密形式保存在本机；云端出错时这句自动改用 Edge 音色念。
-        <b>本地（离线）</b>：Kokoro 模型的 100 个中文音色，不联网、不限量，生成速度是实时的几十倍；口型按音量自动分配。
         快速套用只是起点，套用后可以再微调；满意后点「完成」保存。<br>
         程序已按声卡的输出延迟自动对齐嘴型和声音。如果仍觉得嘴型比声音快，往右调；嘴型比声音慢，往左调。蓝牙耳机延迟较大，通常需要往右调 100~200 ms。</p>
     </div>
@@ -2320,9 +2315,6 @@ function openSettings() {
     $("rate").value = parseInt(s.tts.rate) || 0; $("ratev").textContent = $("rate").value + "%";
     $("pitch").value = parseInt(s.tts.pitch) || 0; $("pitchv").textContent = $("pitch").value + " Hz";
     pending.tts = s.tts.engine || "edge"; renderTts();
-    document.querySelector('#ttseng [value="local"]').disabled = !Object.keys(s.local_voices).length;  // 没下载本地模型就不能选
-    document.querySelector('#ttseng [value="qwen_local"]').disabled = !s.local_ok.qwen_local;
-    document.querySelector('#ttseng [value="sovits"]').disabled = !s.local_ok.sovits;
     $("designrow").dataset.ok = s.local_ok.design ? "1" : "";
     renderRefVoices(s.ref_voices, s.tts.ref_voice);
     $("llm_provider").innerHTML = Object.entries(s.providers).map(([k, p]) => `<option value="${k}">${p.name}</option>`).join("");
